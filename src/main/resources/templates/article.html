@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8"/>
+<title>Article Management System</title>
+<style>
+	table,th,tr,td {
+		border: 1px solid black;
+		border-collapse: collapse;
+	}
+</style>
+</head>
+<body>
+	<h1>Article list</h1>
+	<h2><a href="/add">Add new</a></h2>
+	<table>
+		<tr>
+			<th>ID</th>
+			<th>Title</th>
+			<th>Description</th>
+			<th>Author</th>
+			<th>Created Date</th>
+			<th>Action</th>
+		</tr>
+		<tr th:each="article : ${articles}" th:object="${article}">
+			<td th:text="*{id}"></td>
+			<td th:text="*{title}"></td>
+			<td th:text="*{description}"></td>
+			<td th:text="*{author}"></td>
+			<td th:text="*{createdDate}"></td>
+			<td><a th:href="@{/article/{id}(id=*{id})}">View</a></td>
+		</tr>
+	</table>
+</body>
+</html>
