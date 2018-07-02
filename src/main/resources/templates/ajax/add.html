@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8"/>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<title>Article List</title>
+</head>
+<body>
+	<form>
+		Title: <input type="text" id="title" /><br/>
+		Description: <input type="text" id="desc" /><br/>
+		Author: <input type="text" id="author" /><br/>
+		Category: <input type="text" id="category" /><br/>
+		Thumbnail: <input type="text" id="thumbnail" /><br/>
+	</form>
+	<button>Add article</button>
+	<script>
+		$(document).ready(function() {
+			$("button").click(function() {
+				var article = {
+					    title: $("#title").val(),
+					    description: $("#desc").val(),
+					    category: {
+					        id: $("#category").val()
+					    },
+					    thumbnail: $("#thumbnail").val(),
+					    author: $("#author").val()
+				}
+				
+				console.log(article)
+				$.ajax({
+					url: "/api/v1/articles",
+					type: "POST",
+					data: JSON.stringify(article),
+					contentType: "application/json",
+					success: function(data) {
+						if (data.status) {
+							alert("Success")
+						} else {
+							alert("Failed")
+						}
+					},
+					error: function(err) {
+						console.log(err);
+					}
+				});
+			});
+		});
+	</script>
+</body>
+</html>

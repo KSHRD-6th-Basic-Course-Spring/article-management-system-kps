@@ -1,0 +1,24 @@
+<nav xmlns:th="http://www.thymeleaf.org" class="row" style="background-color:#5e35b1 !important;" th:fragment="header">
+    <div class="nav-wrapper container">
+        <a href="/" class="brand-logo" th:text="#{ams}">AMS</a>
+        <ul id="nav-mobile" class="right hide-on-med-and-down">
+            <li><a href="/article"><i class="material-icons left">home</i><span th:text="#{header.articles}">Articles</span></a></li>
+            <li><a href="#"><i class="material-icons left">format_list_bulleted</i><span th:text="#{header.categories}">Categories</span></a></li>
+            <li><a href="#about"><i class="material-icons left">help_outline</i><span th:text="#{header.about}">About</span></a></li>
+            <li>
+                <a class="dropdown-trigger" href="#" data-target="dropdown1" th:switch="${#locale.language}">
+                		<i class="material-icons left">language</i>
+                		<span th:case="'kh'" th:text="#{header.khmer}">Khmer</span>
+                		<span th:case="'en'" th:text="#{header.english}">English</span>
+                		<span th:case="'kr'" th:text="#{header.korean}">Korean</span>
+                		<i class="material-icons right">arrow_drop_down</i>
+                	</a>
+            </li>
+        </ul>
+        <ul id="dropdown1" class="dropdown-content">
+            <li th:class="${#locale.language=='kh'}?'active':''"><a th:href="@{'?lang=kh'}" th:text="#{header.khmer}">Khmer</a></li>
+            <li th:class="${#locale.language=='en'}?'active':''"><a th:href="@{'?lang=en'}" th:text="#{header.english}">English</a></li>
+            <li th:class="${#locale.language=='kr'}?'active':''"><a th:href="@{'?lang=kr'}" th:text="#{header.korean}">Korean</a></li>
+        </ul>
+    </div>
+</nav>

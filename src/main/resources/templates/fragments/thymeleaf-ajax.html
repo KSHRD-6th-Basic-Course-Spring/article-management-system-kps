@@ -1,0 +1,37 @@
+<table class="responsive-table" th:fragment="article-table">
+    <thead>
+        <tr>
+            <th>#</th>
+            <th>Title</th>
+            <th>Category</th>
+            <th>Author</th>
+            <th>Created Date</th>
+            <th>Thumbnail</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        <tr th:each="article : ${articles}" th:object="${article}">
+            <td><b th:text="*{id}">id</b></td>
+            <td th:text="*{title}">title</td>
+            <td th:text="*{category.category}">category</td>
+            <td th:text="*{author}">author</td>
+            <td th:text="*{createdDate}">created date</td>
+            <td>
+                <img width="100" height="100" th:src="*{thumbnail}"/>
+            </td>
+            <td>
+                <a class="btn-floating btn-small waves-effect waves-light green" th:href="@{/article/{id}(id=*{id})}">
+                    <i class="material-icons">remove_red_eye</i>
+                </a>
+                <a class="btn-floating btn-small waves-effect waves-light blue" th:href="@{/update/{id}(id=*{id})}">
+                    <i class="material-icons">edit</i>
+                </a>
+                <a class="btn-floating btn-small waves-effect waves-light red" th:href="@{/delete/{id}(id=*{id})}">
+                    <i class="material-icons">delete</i>
+                </a>
+            </td>
+        </tr>
+    </tbody>
+</table>

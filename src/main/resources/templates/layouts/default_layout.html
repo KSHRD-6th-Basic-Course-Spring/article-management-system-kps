@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+	<meta charset="UTF-8"/>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+	<meta http-equiv="X-UA-Compatible" content="ie=edge"/>
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
+	<link href="https://fonts.googleapis.com/css?family=Battambang|Roboto" rel="stylesheet"/>
+	<link rel="stylesheet" href="/css/materialize.min.css"/>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	<script src="/js/materialize.min.js"></script>
+	<link rel="stylesheet" href="/css/custom.css"/>
+	<script src="/js/custom.js"></script>
+</head>
+<body>
+	<div th:replace="fragments/header :: header"></div>
+	
+    <div id="main" class="container" layout:fragment="content"></div>
+
+    <div th:replace="fragments/footer :: footer"></div>
+</body>
+</html>

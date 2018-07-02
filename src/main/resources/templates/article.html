@@ -1,35 +1,92 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	  layout:decorator="layouts/default_layout">
 <head>
-<meta charset="UTF-8"/>
-<title>Article Management System</title>
-<style>
-	table,th,tr,td {
-		border: 1px solid black;
-		border-collapse: collapse;
-	}
-</style>
+	<title>Article Management System</title>
 </head>
 <body>
-	<h1>Article list</h1>
-	<h2><a href="/add">Add new</a></h2>
-	<table>
-		<tr>
-			<th>ID</th>
-			<th>Title</th>
-			<th>Description</th>
-			<th>Author</th>
-			<th>Created Date</th>
-			<th>Action</th>
-		</tr>
-		<tr th:each="article : ${articles}" th:object="${article}">
-			<td th:text="*{id}"></td>
-			<td th:text="*{title}"></td>
-			<td th:text="*{description}"></td>
-			<td th:text="*{author}"></td>
-			<td th:text="*{createdDate}"></td>
-			<td><a th:href="@{/article/{id}(id=*{id})}">View</a></td>
-		</tr>
-	</table>
+    <div id="main" class="container" layout:fragment="content">
+        <div class="row" style="color: blueviolet">
+            <h4 class="header">List of articles</h4>
+        </div>
+        <div class="row">
+            <a class="btn waves-effect blue" href="/add">Add article<i class="material-icons right">add_circle</i></a>
+        </div>
+        <div class="row">
+        		<form action="/article" method="get">
+		        <div class="input-field col s6">
+		            <input placeholder="Search" type="text" th:field="${filter.title}"/>
+		        </div>               
+	            <div class="input-field col s5">
+		          	<select class="browser-default" th:field="${filter.cate_id}">
+		            	   <option value="">No Filter</option>
+		            	   <option th:each="category : ${categories}" th:value="${category.id}" th:text="${category.category}"></option>
+		           	</select>
+	      		</div>
+	      		<div class="input-field col s1">
+		          	<button class="btn waves-effect blue" type="submit"><i class="material-icons">search</i></button>
+	      		</div>
+        		</form>
+        </div>
+        <table class="responsive-table">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Title</th>
+                    <th>Category</th>
+                    <th>Author</th>
+                    <th>Created Date</th>
+                    <th>Thumbnail</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                <tr th:each="article : ${articles}" th:object="${article}">
+                    <td><b th:text="*{id}">id</b></td>
+                    <td th:text="*{title}">title</td>
+                    <td th:text="*{category.category}">category</td>
+                    <td th:text="*{author}">author</td>
+                    <td th:text="*{createdDate}">created date</td>
+                    <td>
+                        <img width="100" height="100" th:src="*{thumbnail}"/>
+                    </td>
+                    <td>
+                        <a class="btn-floating btn-small waves-effect waves-light green" th:href="@{/article/{id}(id=*{id})}">
+                            <i class="material-icons">remove_red_eye</i>
+                        </a>
+                        <a class="btn-floating btn-small waves-effect waves-light blue" th:href="@{/update/{id}(id=*{id})}">
+                            <i class="material-icons">edit</i>
+                        </a>
+                        <a class="btn-floating btn-small waves-effect waves-light red" th:href="@{/delete/{id}(id=*{id})}">
+                            <i class="material-icons">delete</i>
+                        </a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="row right" th:if="${paging.totalPages}>1">
+            <ul class="pagination">
+                <li class="waves-effect"><a th:href="@{/article (page=1, title=${filter.title}, cate_id=${filter.cate_id})}">First</a></li>
+                <li class="waves-effect"><a th:href="@{/article (page=${paging.previousPage}, title=${filter.title}, cate_id=${filter.cate_id})}"><i class="material-icons">chevron_left</i></a></li>
+              
+                <li th:each="i: ${#numbers.sequence(paging.startPage, paging.endPage)}" th:class="${paging.page}==${i}?'active':'waves-effect'">
+			 		<a th:text="${i}" th:href="@{/article (page=${i}, title=${filter.title}, cate_id=${filter.cate_id})}">1</a>
+			 	</li>
+                
+                <li class="waves-effect"><a th:href="@{/article (page=${paging.nextPage}, title=${filter.title}, cate_id=${filter.cate_id})}"><i class="material-icons">chevron_right</i></a></li>
+            		<li class="waves-effect"><a th:href="@{/article (page=${paging.totalPages}, title=${filter.title}, cate_id=${filter.cate_id})}">Last</a></li>
+            </ul>
+        </div>
+    </div>
 </body>
 </html>
+
+
+
+
+
+
+
+
