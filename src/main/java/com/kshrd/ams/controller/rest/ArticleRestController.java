@@ -21,8 +21,17 @@ import com.kshrd.ams.model.ArticleFilter;
 import com.kshrd.ams.service.ArticleService;
 import com.kshrd.ams.utility.Paging;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
+import springfox.documentation.annotations.ApiIgnore;
+
 @RestController
 @RequestMapping("/api/v1")
+@Api(description="API Article CRUD")
 public class ArticleRestController {
 	
 	private ArticleService articleService;
@@ -32,8 +41,20 @@ public class ArticleRestController {
 	}
 
 	@GetMapping("/articles")
-	public Map<String, Object> findAll(ArticleFilter filter, Paging paging) {
+	@ApiOperation(value="List all articles and filter")
+	@ApiImplicitParams({
+		@ApiImplicitParam(name="title", value="Search by title", dataType="string", paramType="query", required=false),
+		@ApiImplicitParam(name="cate_id", value="Filter by category id", dataType="integer", paramType="query", required=false),
+		@ApiImplicitParam(name="page", defaultValue="1", value="Page number", dataType="integer", paramType="query", required=false)
+	})
+	@ApiResponses({
+		@ApiResponse(code=401, message="Unauthorized Request!!"),
+		@ApiResponse(code=403, message="You don't have permission!!"),
+		@ApiResponse(code=404, message="Data not found!!")
+	})
+	public Map<String, Object> findAll(@ApiIgnore ArticleFilter filter, @ApiIgnore Paging paging) {
 		Map<String, Object> response = new HashMap<>();
+		
 		List<Article> articles = articleService.findAllFilter(filter, paging);
 		
 		if (articles.isEmpty()) {
